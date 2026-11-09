@@ -18,6 +18,7 @@
       border-radius:12px; color:var(--fg); text-decoration:none; font-weight:500;
       box-shadow:0 1px 2px rgba(0,0,0,.04); transition:border-color .15s, color .15s; }
   a:hover, a:active { border-color:var(--accent); color:var(--accent); }
+  .addr { display:block; color:var(--muted); font-size:.85rem; margin-top:-4px; user-select:all; -webkit-user-select:all; }
 </style>
 </head>
 <body>
@@ -27,7 +28,27 @@
   <a href="https://charvi-idk.github.io/">Portfolio</a>
   <a href="Charvi_Patel_CV.pdf" target="_blank">View my CV</a>
   <a href="https://www.linkedin.com/in/charvi-patel-779a53254/" target="_blank">LinkedIn</a>
-  <a href="mailto:charvi.patel226@gmail.com">Email me</a>
+  <a href="mailto:charvi.patel226@gmail.com" id="email">Email me</a>
+  <small class="addr">charvi.patel226@gmail.com</small>
 </main>
+<script>
+  // Copy the address on tap so something useful happens even without a mail app.
+  document.getElementById('email').addEventListener('click', function () {
+    var link = this, addr = 'charvi.patel226@gmail.com';
+    function done() {
+      link.textContent = 'Address copied ✓';
+      setTimeout(function () { link.textContent = 'Email me'; }, 2500);
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(addr).then(done, function () {});
+    } else {
+      var t = document.createElement('textarea');
+      t.value = addr; t.style.position = 'fixed'; t.style.opacity = '0';
+      document.body.appendChild(t); t.select();
+      try { if (document.execCommand('copy')) done(); } catch (e) {}
+      document.body.removeChild(t);
+    }
+  });
+</script>
 </body>
 </html>
